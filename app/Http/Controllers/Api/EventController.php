@@ -28,7 +28,7 @@ class EventController extends Controller
                 'start_time' => 'required|date',
                 'end_time' => 'required|date|after:start_time'
             ]),
-            'user-id' => 1
+            'user_id' => 1
         ]);
 
         return $event;
@@ -45,9 +45,16 @@ class EventController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Event $event)
     {
-        //
+         $event->update($request->validate([
+            'name' => 'sometimes|string|max:255',
+            'description' => 'nullable|string',
+            'start_time' => 'sometimes|date',
+            'end_time' => 'sometimes|date|after:start_time'
+        ]));
+
+        return $event;
     }
 
     /**
